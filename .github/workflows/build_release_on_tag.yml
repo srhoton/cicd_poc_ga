@@ -8,8 +8,8 @@ on:
 env:
   AWS_REGION: us-east-1                   # set this to your preferred AWS region, e.g. us-west-1
   ECR_REPOSITORY: cicd-poc           # set this to your Amazon ECR repository name
-  ECS_SERVICE: cicd_poc                 # set this to your Amazon ECS service name
-  ECS_CLUSTER: cicd_poc_service # set this to your                 # set this to your Amazon ECS cluster name
+  ECS_SERVICE: cicd_poc_service                 # set this to your Amazon ECS service name
+  ECS_CLUSTER: cicd_poc # set this to your                 # set this to your Amazon ECS cluster name
   CONTAINER_NAME: cicd-poc           # set this to the name of the container in the
                                                # containerDefinitions section of your task definition
 
