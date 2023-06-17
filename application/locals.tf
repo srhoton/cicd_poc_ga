@@ -1,7 +1,7 @@
 data "aws_vpc" "cicd_poc" {
   filter {
     name = "tag:Name"
-    values = ["srhoton-dev-default_vpc"]
+    values = ["${var.env_name}-default_vpc"]
   }
 }
 
