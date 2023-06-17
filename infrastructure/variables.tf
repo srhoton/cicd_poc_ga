@@ -5,5 +5,5 @@ variable "base_cidr_block" {
 
 variable "env_name" {
   description = "The name of the environment."
-  default     = "srhoton-dev"
+  default     = "cicd-testing"
 }
