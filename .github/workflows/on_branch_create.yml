@@ -15,7 +15,8 @@ jobs:
   deploy:
     name: Deploy
     runs-on: ubuntu-latest
-    environment: "$GITHUB_REF_NAME"
+    environment: 
+      name: ${{ github.ref_name }}
 
     steps:
       - name: See if env creates
