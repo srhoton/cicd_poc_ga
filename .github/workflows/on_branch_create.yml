@@ -101,12 +101,12 @@ jobs:
           ECR_REPOSITORY: cicd-poc
           ECS_SERVICE: cicd-poc-service-${{ github.ref_name }}
           ECS_CLUSTER: cicd-poc-${{ github.ref_name }}
-          CONTAINER_NAME: cicd-poc:${{ github.ref_name }}
+          CONTAINER_NAME: cicd-poc
           ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
         uses: aws-actions/amazon-ecs-render-task-definition@v1.1.3
         with:
           task-definition: task-definition.json
-          container-name: ${{ env.ECR_REPOSITORY }}:${{ github.ref_name }}
+          container-name: $CONTAINER_NAME
           image: ${{ steps.build-image.outputs.image }}
 
       - name: Deploy Amazon ECS task definition
