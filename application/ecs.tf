@@ -98,7 +98,7 @@ resource "aws_ecs_task_definition" "cicd_poc_task_definition" {
   memory = 512
   container_definitions = jsonencode([
     {
-      name = "cicd_poc"
+      name = "cicd-poc"
       image = "sprhoto/red_machine:latest"
       essential = true
       portMappings = [
