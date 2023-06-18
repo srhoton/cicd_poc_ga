@@ -192,7 +192,7 @@ resource "aws_ecs_service" "cicd_poc_service" {
 
   load_balancer {
     target_group_arn = aws_lb_target_group.cicd_poc_target_group_one.arn
-    container_name = "cicd_poc"
+    container_name = "cicd-poc"
     container_port = 80
   }
   deployment_controller {
