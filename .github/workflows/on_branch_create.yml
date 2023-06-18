@@ -54,9 +54,11 @@ jobs:
           terraform workspace new $ENV_NAME || terraform workspace select $ENV_NAME
           terraform apply -auto-approve -var env_name=$ENV_NAME
   deploy:
+    needs: build-branch-infra
     name: Deploy
     runs-on: ubuntu-latest
-    environment: production
+    environment: 
+      name: ${{ github.ref_name }}
 
     steps:
       - name: Checkout
