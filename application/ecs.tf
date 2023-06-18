@@ -1,5 +1,5 @@
 resource "aws_ecs_cluster" "cicd_poc" {
-  name = "cicd_poc"
+  name = "cicd-poc-${replace(substr(var.env_name, 0, 60), "_", "-")}"
 }
 
 resource "aws_ecs_cluster_capacity_providers" "cicd_poc_provider" {
@@ -69,7 +69,7 @@ data "aws_iam_policy_document" "cicd_poc_task_role" {
 }
 
 resource "aws_iam_role" "cicd_poc_execution_role" {
-  name               = "cicd-poc-ecs-execution-role"
+  name = "cicd-poc-ecs-execution-role-${replace(substr(var.env_name, 0, 60), "_", "-")}"
   assume_role_policy = data.aws_iam_policy_document.cicd_poc_assume_by_ecs.json
 }
 
@@ -79,7 +79,7 @@ resource "aws_iam_role_policy" "cicd_poc_execution_role" {
 }
 
 resource "aws_iam_role" "cicd_poc_task_role" {
-  name               = "cicd-poc-ecs-task-role"
+  name               = "cicd-poc-ecs-task-role-${replace(substr(var.env_name, 0, 60), "_", "-")}"
   assume_role_policy = data.aws_iam_policy_document.cicd_poc_assume_by_ecs.json
 }
 
@@ -112,19 +112,19 @@ resource "aws_ecs_task_definition" "cicd_poc_task_definition" {
 }
 
 resource "aws_lb" "cicd_poc_lb" {
-  name = "cicd-poc-lb"
+  name = "cicd-poc-lb-${replace(substr(var.env_name, 0, 60), "_", "-")}"
   internal = false
   load_balancer_type = "application"
   subnets =  [data.aws_subnet.public_1.id, data.aws_subnet.public_2.id, data.aws_subnet.public_3.id]
   security_groups = [aws_security_group.cicd_poc_ecs_service.id]
 
   tags = {
-    Name = "cicd_poc_lb"
+    Name = "cicd-poc-lb-${replace(substr(var.env_name, 0, 60), "_", "-")}"
     }
 }
 
 resource "aws_lb_target_group" "cicd_poc_target_group_one" {
-  name = "cicd-poc-tg-one"
+  name = "cicd-poc-tg-one-${replace(substr(var.env_name, 0, 60), "_", "-")}"
   port = 80
   protocol = "HTTP"
   target_type = "ip"
@@ -132,7 +132,7 @@ resource "aws_lb_target_group" "cicd_poc_target_group_one" {
 }
 
 resource "aws_lb_target_group" "cicd_poc_target_group_two" {
-  name = "cicd-poc-tg-two"
+  name = "cicd-poc-tg-two-${replace(substr(var.env_name, 0, 60), "_", "-")}"
   port = 80
   protocol = "HTTP"
   target_type = "ip"
@@ -150,7 +150,7 @@ resource "aws_lb_listener" "cicd_poc_listener" {
 }
 
 resource "aws_security_group" "cicd_poc_ecs_service" {
-  name = "cicd_poc_ecs_service"
+  name = "cicd-poc-ecs-service-${replace(substr(var.env_name, 0, 60), "_", "-")}"
   vpc_id = data.aws_vpc.cicd_poc.id
   ingress {
     from_port = 22
@@ -178,7 +178,7 @@ resource "aws_security_group" "cicd_poc_ecs_service" {
 }
 
 resource "aws_ecs_service" "cicd_poc_service" {
-  name = "cicd_poc_service"
+  name = "cicd-poc-service-${replace(substr(var.env_name, 0, 60), "_", "-")}"
   cluster = aws_ecs_cluster.cicd_poc.id
   task_definition = aws_ecs_task_definition.cicd_poc_task_definition.arn
   desired_count = 1
