@@ -101,7 +101,7 @@ jobs:
           ECR_REPOSITORY: cicd-poc
           ECS_SERVICE: cicd-poc-service-${{ github.ref_name }}
           ECS_CLUSTER: cicd-poc-${{ github.ref_name }}
-          CONTAINER_NAME: cicd_poc
+          CONTAINER_NAME: ${{ env.ECR_REPOSITORY }}:${{ github.ref_name }}
           ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
         uses: aws-actions/amazon-ecs-render-task-definition@v1.1.3
         with:
