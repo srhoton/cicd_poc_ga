@@ -40,7 +40,7 @@ jobs:
           AWS_DEFAULT_REGION: ${{ env.AWS_REGION }}
           ENV_NAME: ${{ github.ref_name }}
         run: |
-          cd infrastructure
+          cd application
           terraform workspace new $ENV_NAME || terraform workspace select $ENV_NAME
           terraform plan -var env_name=$ENV_NAME
       - name: Terraform Apply
@@ -50,6 +50,6 @@ jobs:
           AWS_DEFAULT_REGION: ${{ env.AWS_REGION }}
           ENV_NAME: ${{ github.ref_name }}
         run: |
-          cd infrastructure
+          cd application
           terraform workspace new $ENV_NAME || terraform workspace select $ENV_NAME
           terraform apply -auto-approve -var env_name=$ENV_NAME
