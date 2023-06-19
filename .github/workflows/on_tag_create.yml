@@ -1,4 +1,4 @@
-name: Deploy to Amazon ECS QA, setup prod job
+name: Deploy to Amazon ECS qa, setup prod job
 
 on:
   push:
@@ -10,10 +10,10 @@ env:
 
 jobs:
   build-qa-infra:
-    name: Build QA Infrastructure
+    name: Build qa Infrastructure
     runs-on: ubuntu-latest
     environment: 
-      name: QA
+      name: qa
     steps:
       - name: Checkout
         uses: actions/checkout@v3
@@ -26,7 +26,7 @@ jobs:
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           AWS_DEFAULT_REGION: ${{ env.AWS_REGION }}
-          ENV_NAME: QA
+          ENV_NAME: qa
         run: |
           cd application
           terraform init
@@ -35,7 +35,7 @@ jobs:
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           AWS_DEFAULT_REGION: ${{ env.AWS_REGION }}
-          ENV_NAME: QA
+          ENV_NAME: qa
         run: |
           cd application
           terraform workspace new $ENV_NAME || terraform workspace select $ENV_NAME
@@ -45,7 +45,7 @@ jobs:
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           AWS_DEFAULT_REGION: ${{ env.AWS_REGION }}
-          ENV_NAME: QA
+          ENV_NAME: qa
         run: |
           cd application
           terraform workspace new $ENV_NAME || terraform workspace select $ENV_NAME
@@ -55,7 +55,7 @@ jobs:
     name: Deploy
     runs-on: ubuntu-latest
     environment: 
-      name: QA
+      name: qa
 
     steps:
       - name: Checkout
@@ -120,7 +120,7 @@ jobs:
           service: ${{ env.ECS_SERVICE }}
           cluster: ${{ env.ECS_CLUSTER }}
           wait-for-service-stability: true
-  build-prod-infra:
+  build-production-infra:
     name: Build Prod Infrastructure
     runs-on: ubuntu-latest
     environment: 
