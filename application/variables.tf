@@ -14,12 +14,6 @@ variable "github_token" {
   default     = "ghp_6kMzjWdwV2Vxs2iNlyZ8kP3j2UyJ3D2vBKb"
 }
 
-variable "account_id" {
-  description = "id of the active account"
-  type        = string
-  default     = "705740530616"
-}
-
 variable "container_name" {
   description = "The name of the container to be deployed"
   type        = string
