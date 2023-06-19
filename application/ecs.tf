@@ -89,7 +89,7 @@ resource "aws_iam_role_policy" "cicd_poc_task_role" {
 }
 
 resource "aws_ecs_task_definition" "cicd_poc_task_definition" {
-  family = "cicd_poc_task_definition"
+  family = "cicd_poc_task_definition-${var.env_name}"
   network_mode = "awsvpc"
   execution_role_arn = aws_iam_role.cicd_poc_execution_role.arn
   task_role_arn = aws_iam_role.cicd_poc_task_role.arn
