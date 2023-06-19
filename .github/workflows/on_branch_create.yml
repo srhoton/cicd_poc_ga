@@ -78,7 +78,7 @@ jobs:
       - name: Build, tag, and push image to Amazon ECR
         id: build-image
         env:
-          ECR_REPOSITORY: cicd-poc-${{ github.ref_name }}
+          ECR_REPOSITORY: cicd-poc
           ECS_SERVICE: cicd-poc-service-${{ github.ref_name }}
           ECS_CLUSTER: cicd-poc-${{ github.ref_name }}
           CONTAINER_NAME: cicd-poc
