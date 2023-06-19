@@ -1,5 +1,4 @@
 resource "aws_ecr_repository" "cicd_poc" {
-  #name = "cicd-poc-${replace(substr(var.env_name, 0, 60), "_", "-")}"
   name = "cicd-poc"
 }
 
