@@ -1,5 +1,5 @@
 resource "aws_ecr_repository" "cicd_poc" {
-  name = "cicd-poc"
+  name = "cicd-poc-${var.env_name}"
 }
 
 data "aws_iam_policy_document" "cicd_poc_ecr_policy" {
