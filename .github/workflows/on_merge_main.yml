@@ -80,7 +80,7 @@ jobs:
       - name: Build, tag, and push image to Amazon ECR
         id: build-image
         env:
-          ECR_REPOSITORY: cicd-poc-dev
+          ECR_REPOSITORY: cicd-poc
           ECS_SERVICE: cicd-poc-service-dev
           ECS_CLUSTER: cicd-poc-dev
           CONTAINER_NAME: cicd-poc
@@ -100,7 +100,7 @@ jobs:
       - name: Fill in the new image ID in the Amazon ECS task definition
         id: task-def-update
         env:
-          ECR_REPOSITORY: cicd-poc-dev
+          ECR_REPOSITORY: cicd-poc
           ECS_SERVICE: cicd-poc-service-dev
           ECS_CLUSTER: cicd-poc-dev
           CONTAINER_NAME: cicd-poc
@@ -114,7 +114,7 @@ jobs:
       - name: Deploy Amazon ECS task definition
         id: deploy-to-ecs
         env:
-          ECR_REPOSITORY: cicd-poc-dev
+          ECR_REPOSITORY: cicd-poc
           ECS_SERVICE: cicd-poc-service-dev
           ECS_CLUSTER: cicd-poc-dev
           CONTAINER_NAME: cicd-poc
