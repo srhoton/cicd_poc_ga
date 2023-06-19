@@ -15,7 +15,7 @@ jobs:
     name: Delete Branch Infrastructure
     runs-on: ubuntu-latest
     environment: 
-      name: ${{ github.ref_name }}
+      name: ${{ github.event.ref }}
     steps:
       - name: Checkout
         uses: actions/checkout@v3
@@ -28,7 +28,7 @@ jobs:
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           AWS_DEFAULT_REGION: ${{ env.AWS_REGION }}
-          ENV_NAME: ${{ github.ref_name }}
+          ENV_NAME: ${{ github.event.ref }}
         run: |
           cd application
           terraform init
@@ -37,7 +37,7 @@ jobs:
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           AWS_DEFAULT_REGION: ${{ env.AWS_REGION }}
-          ENV_NAME: ${{ github.ref_name }}
+          ENV_NAME: ${{ github.event.ref }}
         run: |
           cd application
           terraform workspace new $ENV_NAME || terraform workspace select $ENV_NAME
@@ -56,8 +56,8 @@ jobs:
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           AWS_DEFAULT_REGION: ${{ env.AWS_REGION }}
-          ENV_NAME: ${{ github.ref_name }}
+          ENV_NAME: ${{ github.event.ref }}
         with:
           # Use a JWT created with your GitHub App's private key
           token: ${{ steps.get-token.outputs.token }}
-          ref: ${{ github.ref_name }}
+          ref: ${{ github.event.ref }}
