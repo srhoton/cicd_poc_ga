@@ -32,7 +32,7 @@ data "aws_iam_policy_document" "cicd_poc_execution_role" {
       "ecr:*",
     ]
 
-    resources = [aws_ecr_repository.cicd_poc.arn]
+    resources = [data.aws_ecr_repository.cicd_poc.arn]
   }
 
   statement {

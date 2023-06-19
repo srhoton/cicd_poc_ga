@@ -7,3 +7,10 @@ variable "env_name" {
   description = "The name of the environment."
   default     = "cicd-testing"
 }
+
+
+
+variable "account_id" {
+  description = "The id of the account."
+  default     = "705740530616"
+}
