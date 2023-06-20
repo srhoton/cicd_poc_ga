@@ -2,8 +2,8 @@ name: Branch Create - Build and Deploy to Amazon ECS
 
 on:
   push:
-    #tags-ignore:
-    #  - '**'
+    tags-ignore:
+      - '**'
     branches:
       - '*'
       - '**'
