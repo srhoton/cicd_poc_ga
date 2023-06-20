@@ -2,12 +2,12 @@ name: Branch Create - Build and Deploy to Amazon ECS
 
 on:
   push:
-    #tags-ignore:
-    #  - '**'
+    tags-ignore:
+      - '**'
     branches:
       - '*'
       - '**'
-      - '!master'
+      - '!main'
 
 env:
   AWS_REGION: us-east-1                   # set this to your preferred AWS region, e.g. us-west-1
