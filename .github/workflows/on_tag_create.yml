@@ -200,7 +200,7 @@ jobs:
         with:
           task-definition: task-definition.json
           container-name: cicd-poc
-          image: ${{ steps.login-ecr-production.outputs.registry }}/${{ env.ECR_REPOSITORY }}:${{ github.ref }}
+          image: ${{ steps.login-ecr-production.outputs.registry }}/${{ env.ECR_REPOSITORY }}:${{ github.ref_name }}
 
       - name: Deploy Amazon ECS task definition for production
         id: deploy-to-ecs-production
