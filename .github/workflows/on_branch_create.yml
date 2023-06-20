@@ -1,11 +1,13 @@
-name: Deploy to Amazon ECS
+name: Branch Create - Build and Deploy to Amazon ECS
 
 on:
-  create:
+  push:
     #tags-ignore:
     #  - '**'
     branches:
       - '*'
+      - '**'
+      - '!master'
 
 env:
   AWS_REGION: us-east-1                   # set this to your preferred AWS region, e.g. us-west-1
@@ -17,6 +19,7 @@ env:
 
 jobs:
   build-branch-infra:
+    if: github.event.created
     name: Build Branch Infrastructure
     runs-on: ubuntu-latest
     environment: 
@@ -59,6 +62,7 @@ jobs:
           terraform apply -auto-approve -var env_name=$ENV_NAME
   deploy:
     needs: build-branch-infra
+    if: github.event.created
     name: Deploy
     runs-on: ubuntu-latest
     environment: 
