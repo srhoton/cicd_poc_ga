@@ -200,7 +200,8 @@ jobs:
         with:
           task-definition: task-definition.json
           container-name: cicd-poc
-          image: $ECR_REGISTRY/$ECR_REPOSITORY:$GITHUB_REF_NAME
+            #image: $ECR_REGISTRY/$ECR_REPOSITORY:$GITHUB_REF_NAME
+          image: ${{ steps.login-ecr.outputs.registry }}/${{ env.ECR_REPOSITORY }}:${{ github.ref }}
 
       - name: Deploy Amazon ECS task definition
         id: deploy-to-ecs
