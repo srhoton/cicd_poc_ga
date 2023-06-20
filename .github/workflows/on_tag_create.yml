@@ -69,7 +69,7 @@ jobs:
           aws-region: ${{ env.AWS_REGION }}
 
       - name: Login to Amazon ECR
-        id: login-ecr
+        id: login-ecr-qa
         uses: aws-actions/amazon-ecr-login@v1.6.0
 
       - name: Build, tag, and push image to Amazon ECR
@@ -79,7 +79,7 @@ jobs:
           ECS_SERVICE: cicd-poc-service-qa
           ECS_CLUSTER: cicd-poc-qa
           CONTAINER_NAME: cicd-poc
-          ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
+          ECR_REGISTRY: ${{ steps.login-ecr-qa.outputs.registry }}
         run: |
           # Build a docker container and
           # push it to ECR so that it can
@@ -87,36 +87,36 @@ jobs:
           docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$GITHUB_REF_NAME .
           docker push $ECR_REGISTRY/$ECR_REPOSITORY:$GITHUB_REF_NAME
           echo "image=$ECR_REGISTRY/$ECR_REPOSITORY:$GITHUB_REF_NAME" >> $GITHUB_OUTPUT
-      - name: Download task def
-        id: get-task-def
+      - name: Download QA task def
+        id: get-task-def-qa
         run: |
           aws ecs describe-task-definition --task-definition cicd_poc_task_definition-qa --query taskDefinition > task-definition.json
 
-      - name: Fill in the new image ID in the Amazon ECS task definition
-        id: task-def-update
+      - name: Fill in the new image ID in the Amazon ECS task definition for qa
+        id: task-def-update-qa
         env:
           ECR_REPOSITORY: cicd-poc
           ECS_SERVICE: cicd-poc-service-qa
           ECS_CLUSTER: cicd-poc-qa
           CONTAINER_NAME: cicd-poc
-          ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
+          ECR_REGISTRY: ${{ steps.login-ecr-qa.outputs.registry }}
         uses: aws-actions/amazon-ecs-render-task-definition@v1.1.3
         with:
           task-definition: task-definition.json
           container-name: cicd-poc
           image: ${{ steps.build-image.outputs.image }}
 
-      - name: Deploy Amazon ECS task definition
-        id: deploy-to-ecs
+      - name: Deploy Amazon ECS task definition for qa
+        id: deploy-to-ecs-qa
         env:
           ECR_REPOSITORY: cicd-poc
           ECS_SERVICE: cicd-poc-service-qa
           ECS_CLUSTER: cicd-poc-qa
           CONTAINER_NAME: cicd-poc
-          ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
+          ECR_REGISTRY: ${{ steps.login-ecr-qa.outputs.registry }}
         uses: aws-actions/amazon-ecs-deploy-task-definition@v1.4.11
         with:
-          task-definition: ${{ steps.task-def-update.outputs.task-definition }}
+          task-definition: ${{ steps.task-def-update-qa.outputs.task-definition }}
           service: ${{ env.ECS_SERVICE }}
           cluster: ${{ env.ECS_CLUSTER }}
           wait-for-service-stability: true
@@ -180,39 +180,39 @@ jobs:
           aws-region: ${{ env.AWS_REGION }}
 
       - name: Login to Amazon ECR
-        id: login-ecr
+        id: login-ecr-production
         uses: aws-actions/amazon-ecr-login@v1.6.0
 
-      - name: Download task def
-        id: get-task-def
+      - name: Download task def for production
+        id: get-task-def-production
         run: |
           aws ecs describe-task-definition --task-definition cicd_poc_task_definition-production --query taskDefinition > task-definition.json
 
-      - name: Fill in the new image ID in the Amazon ECS task definition
-        id: task-def-update
+      - name: Fill in the new image ID in the Amazon ECS task definition for production
+        id: task-def-update-production
         env:
           ECR_REPOSITORY: cicd-poc
           ECS_SERVICE: cicd-poc-service-production
           ECS_CLUSTER: cicd-poc-production
           CONTAINER_NAME: cicd-poc
-          ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
+          ECR_REGISTRY: ${{ steps.login-ecr-production.outputs.registry }}
         uses: aws-actions/amazon-ecs-render-task-definition@v1.1.3
         with:
           task-definition: task-definition.json
           container-name: cicd-poc
-          image: ${{ steps.login-ecr.outputs.registry }}/${{ env.ECR_REPOSITORY }}:${{ github.ref }}
+          image: ${{ steps.login-ecr-production.outputs.registry }}/${{ env.ECR_REPOSITORY }}:${{ github.ref }}
 
-      - name: Deploy Amazon ECS task definition
-        id: deploy-to-ecs
+      - name: Deploy Amazon ECS task definition for production
+        id: deploy-to-ecs-production
         env:
           ECR_REPOSITORY: cicd-poc
           ECS_SERVICE: cicd-poc-service-production
-          ECS_CLUSTER: cicd-poc-qa
+          ECS_CLUSTER: cicd-poc-production
           CONTAINER_NAME: cicd-poc
-          ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
+          ECR_REGISTRY: ${{ steps.login-ecr-production.outputs.registry }}
         uses: aws-actions/amazon-ecs-deploy-task-definition@v1.4.11
         with:
-          task-definition: ${{ steps.task-def-update.outputs.task-definition }}
+          task-definition: ${{ steps.task-def-update-production.outputs.task-definition }}
           service: ${{ env.ECS_SERVICE }}
           cluster: ${{ env.ECS_CLUSTER }}
           wait-for-service-stability: true
