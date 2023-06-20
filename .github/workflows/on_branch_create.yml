@@ -19,7 +19,7 @@ env:
 
 jobs:
   build-branch-infra:
-    if: github.event.created
+    if: github.event.created || github.event.pushed
     name: Build Branch Infrastructure
     runs-on: ubuntu-latest
     environment: 
